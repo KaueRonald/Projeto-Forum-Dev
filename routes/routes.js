@@ -1,3 +1,7 @@
-const routes = require('express').Router()
+const router = require("express").Router();
 
-module.exports = routes
+router.get("/profile", function (req, res) {
+  res.render("profile");
+});
+
+module.exports = router;
