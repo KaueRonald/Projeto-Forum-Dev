@@ -1,5 +1,9 @@
 const router = require("express").Router();
 
+router.get("/", function (req, res) {
+  res.render("home");
+});
+
 router.get("/profile", function (req, res) {
   res.render("profile");
 });
