@@ -1,0 +1,40 @@
+<main class="text-center bs-body">
+  <div class="shadow form-signup m-auto rounded">
+    <div>
+      <h1>Entrar</h1>
+      <form class="mt-5" action="/login" method="post">
+        <div class="mb-3">
+          <label class="form-label float-start" for="username">Usuário:</label>
+          <input
+            name="username"
+            type="text"
+            class="form-control"
+            id="email"
+            autofocus
+            required
+          />
+          <!-- <div class="invalid-feedback">
+              Por favor, insira um email válido.
+            </div> -->
+        </div>
+
+        <div class="mb-3">
+          <label class="form-label float-start" for="password">Senha:</label>
+          <input
+            name="password"
+            type="password"
+            class="form-control"
+            id="password"
+            required
+          />
+          <!-- <div class="invalid-feedback">Senha incorreta.</div> -->
+        </div>
+        <input
+          class="btn btn-outline-light w-100 mt-2"
+          type="submit"
+          value="Entrar"
+        />
+      </form>
+    </div>
+  </div>
+</main>
