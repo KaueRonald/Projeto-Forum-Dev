@@ -1,21 +1,32 @@
-<main class="text-center bs-body">
+<div class="container d-flex flex-column mt-3" style="width: 23rem;">
+{{#each errs}}
+    <div class="alert alert-danger" >
+        <strong>Error! </strong> {{text}}
+    </div>
+{{else}}
+
+{{/each}}
+
+<main class="text-center bs-body mt-0">
   <div class="shadow form-signup m-auto rounded">
     <div>
       <h1>Inscreva-se</h1>
-      <form class="mt-5" action="/signup" method="post">
+      <form class="mt-4" action="/signup" method="post">
+      <div class="mb-3">
+        <label class="form-label float-start" for="">Nome:</label>
+          <input type="text" name="displayName" class="form-control"
+            required>
+      </div>
         <div class="mb-3">
-          <label class="form-label float-start" for="username">Usuário:</label>
+          
+          <label class="form-label float-start" for="email">Email:</label>
           <input
-            name="username"
+            name="email"
             type="text"
             class="form-control"
-            id="email"
             autofocus
             required
           />
-          <!-- <div class="invalid-feedback">
-              Por favor, insira um email válido.
-            </div> -->
         </div>
 
         <div class="mb-3">
@@ -27,7 +38,15 @@
             id="password"
             required
           />
-          <!-- <div class="invalid-feedback">Senha incorreta.</div> -->
+          <label class="form-label float-start mt-3" for="password2">Confirme a
+            sua senha:
+          </label>
+          <input
+            name="password2"
+            type="password"
+            class="form-control"
+            required
+          />
         </div>
         <input
           class="btn btn-outline-light w-100 mt-2"
@@ -36,5 +55,5 @@
         />
       </form>
     </div>
-  </div>
+  </div></div>
 </main>
