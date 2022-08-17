@@ -7,6 +7,7 @@ const flash = require("connect-flash");
 const session = require("express-session");
 const passport = require("passport");
 const mongoose = require("mongoose");
+require("./config/auth")(passport)
 
 const routes = require("./routes/routes");
 
@@ -26,16 +27,17 @@ app.set("view engine", "hbs");
 
 app.use(express.static(path.join(__dirname, "public")));
 
+//BodyParser
 app.use(bodyParser.urlencoded({ extended: false }));
 app.use(bodyParser.json());
 
+//Sessão
 app.use(
   session({
     secret: "LUp$Dg?,I#i&owP3=9su+OB%`JgL4muLF5YJ~{;t",
     resave: false,
     saveUninitialized: true,
-  })
-);
+  }));
 
 app.use(passport.initialize());
 app.use(passport.session());
