@@ -1,6 +1,6 @@
-<nav class="navbar navbar-expand-lg bg-dark">
+<nav class="navbar navbar-expand-lg bg-light">
   <div class="container-fluid">
-    <a class="navbar-brand" href="#">Fórum</a>
+    <a class="navbar-brand" href="/">Fórum</a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent"
       aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
       <span class="navbar-toggler-icon"></span>
@@ -11,13 +11,17 @@
           <a class="nav-link active" aria-current="page" href="/">Home</a>
         </li>
         <li class="nav-item">
-          <a class="nav-link" href="#">Link</a>
-        </li>
-
-        <li class="nav-item">
-          <a class="nav-link disabled">Disabled</a>
+          <a class="nav-link" href="/profile">Profile</a>
         </li>
       </ul>
     </div>
+    {{#if user}}
+    <div style="d-flex justify-content-between"><a href="/profile">kaue</a>
+      <a href="/logout"><button class="btn btn-dark" type="button" style="margin-left: 20px">Sair</button></a>
+    </div>
+    {{else}}
+    <a href="/login"><button class="btn btn-dark" type="button" style="margin-left: 20px">Logar</button></a>
+    <a href="/signup"><button class="btn btn-dark " type="button" style="margin: 20px">cadastrar</button></a>
+    {{/if}}
   </div>
 </nav>
