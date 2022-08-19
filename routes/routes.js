@@ -1,5 +1,6 @@
 const router = require("express").Router();
 const User = require("../models/User");
+const Post = require("../models/Post");
 const bcrypt = require("bcrypt");
 const passport = require("passport")
 const {eAdmin} = require("../helpers/admin")
@@ -109,5 +110,27 @@ router.post("/signup", function (req, res) {
       });
   }
 });
+
+router.get('/newPost', (req, res)=>{
+  res.render('newPost');
+})
+
+router.post('/addPost', (req, res)=>{
+  const newPost = {
+    title: req.body.title,
+    subTitle: req.body.subTitle,
+    description: req.body.description,
+    content: req.body.content
+
+}
+
+new Post(newPost).save().then(() => {
+    req.flash('success_msg', 'Postagerm criada com sucesso');
+    res.redirect('/');
+}).catch((err) => {
+    req.flash('error_msg', 'Houve um erro na criação da postagem')
+    res.redirect('/');
+})
+})
 
 module.exports = router;
