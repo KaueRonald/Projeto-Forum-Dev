@@ -2,6 +2,7 @@ const router = require("express").Router();
 const User = require("../models/User");
 const bcrypt = require("bcrypt");
 const passport = require("passport")
+const {eAdmin} = require("../helpers/admin")
 
 router.get("/", function (req, res) {
   res.render("home");
@@ -11,7 +12,7 @@ router.get("/login", function (req, res) {
   res.render("login");
 });
 
-router.get("/profile", function (req, res) {
+router.get("/profile", eAdmin, function (req, res) {
   res.render("profile");
 });
 
@@ -22,12 +23,21 @@ router.get("/signup", function (req, res) {
 router.post("/login", function (req, res, next) {
 
   passport.authenticate("local", {
-    successRedirect: "/profile",
+    successRedirect: "/",
     failureRedirect: "/login",
     failureFlash: true
   })(req, res, next)
 
 });
+
+router.get("/logout", function (req, res)  {
+  req.logout(function(err) {
+    req.flash("success_msg", "Deslogado com sucesso!")
+    if (err) { return next(err); }
+    
+    res.redirect('/');
+  });
+})
 
 router.post("/signup", function (req, res) {
   let errs = [];
