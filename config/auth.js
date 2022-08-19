@@ -1,7 +1,6 @@
 const localStrategy = require("passport-local").Strategy
 const mongoose = require("mongoose")
 const bcrypt = require("bcrypt")
-const { deleteOne } = require("../models/User")
 
 //Model User
 require("../models/User")
