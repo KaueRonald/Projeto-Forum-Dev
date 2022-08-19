@@ -7,14 +7,6 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Forum API</title>
   <style>
-    html {
-      height: 100%;
-    }
-
-    body {
-      margin: 0;
-    }
-
     .bg {
       animation: slide 3s ease-in-out infinite alternate;
       background-image: linear-gradient(-60deg, rgb(28, 126, 110) 50%, rgb(236, 232, 228) 50%);
@@ -49,10 +41,6 @@
       transform: translate(-50%, -50%);
     }
 
-    h1 {
-      font-family: monospace;
-    }
-
     @keyframes slide {
       0% {
         transform: translateX(-25%);
@@ -67,12 +55,18 @@
 
 <body>
   {{>_navbar}}
-  {{#if error}}
-  <div class="alert alert-danger mt-3" style="margin: 0 auto; text-align: center; width: 20rem">{{error}}</div>
-  {{else}}
+  <br>
 
-  {{/if}}
-  <div class="container">{{{body}}}</div>
+  <div class="container mt-4">
+    {{#if error}}
+    <div class="alert alert-danger mt-3" style="margin: 0 auto; text-align: center; width: 20rem">{{error}}</div>
+    {{else}}
+
+    {{/if}}
+    {{{body}}}
+  </div>
+
+ 
   <div class="bg"></div>
   <div class="bg bg2"></div>
   <div class="bg bg3"></div>
