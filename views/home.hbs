@@ -1,17 +1,60 @@
+{{#each errs}}
+  <div class="alert alert-danger">{{text}}</div>
+{{else}}
+
+{{/each}}
+
 <div style="display: flex; flex-wrap: wrap; justify-content: space-evenly; gap: 10px">
  
-
-  <div class="card">
-    <div class="card-body">
-      <h5 class="card-title">Título da postagem</h5>
-      <p class="card-text">Um exemplo de texto rápido para construir o título da postagem e fazer preencher o conteúdo
-        da postagem.</p>
+{{#if user}}
+  {{#each users}}
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">{{title}}</h4>
+        <p class="card-text">Descrição: {{description}}</p><hr>
+        <small>Sub-Titulo: {{subTitle}}</small><br>
+        <small>Criada em: {{date}}</small><br><br>
+        <a href="/postContent/{{_id}}" class="card-link"><button class="btn btn-primary">Detalhamento</button></a>
+        <a href="/editPost/{{_id}}" class="card-link"><button class="btn btn-success">Editar Postagem</button></a>
+        <a href="/deletePost/{{_id}}" class="card-link"><button class="btn btn-danger">Excluir Postagem</button></a>
+      </div>
     </div>
-    <ul class="list-group list-group-flush">
-      <li class="list-group-item">sub-titulos</li>
-      <li class="list-group-item">sub-titulos</li>
-    </ul>
+  {{else}}
+    <h2>Nenhuma postagem registrada</h2>
+    <a href="/newPost"><button class="btn btn-primary" type="button" style="margin: 20px">Criar Postagem</button></a>
+  {{/each}}
+
+{{else}}
+  {{#each users}}
+    <div class="card">
+      <div class="card-body">
+        <h4 class="card-title">{{title}}</h4>
+        <p class="card-text">Descrição: {{description}}</p><hr>
+        <small>Sub-Titulo: {{subTitle}}</small><br>
+        <small>Criada em: {{date}}</small><br><br>
+        <a href="/postContent/{{_id}}" class="card-link"><button class="btn btn-primary">Detalhamento</button></a>
+      </div>
+    </div>
+  {{else}}
+    <h2>Nenhuma postagem registrada</h2>
+    <a href="/newPost"><button class="btn btn-primary" type="button" style="margin: 20px">Criar Postagem</button></a>
+  {{/each}}
+{{/if}}
+
+{{#each users}}
+    <div class="card">
     <div class="card-body">
-      <a href="#" class="card-link">detalhamento</a>
+      <h4 class="card-title">{{title}}</h4>
+      <p class="card-text">Descrição: {{description}}</p><hr>
+      <small>Sub-Titulo: {{subTitle}}</small><br>
+      <small>Criada em: {{date}}</small><br><br>
+      <a href="/postContent/{{_id}}" class="card-link"><button class="btn btn-primary">Detalhamento</button></a>
+        <a href="/editPost/{{_id}}" class="card-link"><button class="btn btn-success">Editar Postagem</button></a>
+        <a href="/deletePost/{{_id}}" class="card-link"><button class="btn btn-danger">Excluir Postagem</button></a>
     </div>
   </div>
+{{else}}
+  <h2>Nenhuma postagem registrada</h2>
+  <a href="/newPost"><button class="btn btn-primary" type="button" style="margin: 20px">Criar Postagem</button></a>
+{{/each}}
+
