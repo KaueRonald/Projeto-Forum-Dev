@@ -6,7 +6,13 @@ const passport = require("passport")
 const {eAdmin} = require("../helpers/admin")
 
 router.get("/", function (req, res) {
-  res.render("home");
+
+  Post.find().lean().sort({data:"desc"}).then((users)=>{
+    res.render('home', {users: users});
+  }).catch((err)=>{
+    req.flash('error_msg', 'Houve um erro interno!')
+    res.redirect('/404')
+  })
 });
 
 router.get("/login", function (req, res) {
@@ -111,11 +117,11 @@ router.post("/signup", function (req, res) {
   }
 });
 
-router.get('/newPost', (req, res)=>{
+router.get('/newPost', eAdmin, (req, res)=>{
   res.render('newPost');
 })
 
-router.post('/addPost', (req, res)=>{
+router.post('/addPost', eAdmin, (req, res)=>{
   const newPost = {
     title: req.body.title,
     subTitle: req.body.subTitle,
@@ -124,13 +130,67 @@ router.post('/addPost', (req, res)=>{
 
 }
 
-new Post(newPost).save().then(() => {
-    req.flash('success_msg', 'Postagerm criada com sucesso');
-    res.redirect('/');
-}).catch((err) => {
-    req.flash('error_msg', 'Houve um erro na criação da postagem')
-    res.redirect('/');
+  new Post(newPost).save().then(() => {
+      req.flash('success_msg', 'Postagerm criada com sucesso');
+      res.redirect('/');
+  }).catch((err) => {
+      req.flash('error_msg', 'Houve um erro na criação da postagem')
+      res.redirect('/');
+  })
 })
+
+router.get('/postContent/:id', (req, res)=>{
+  Post.findOne({_id:req.params.id}).lean().then((post)=>{
+    res.render('postContent', {post:post});
+  }).catch((err)=>{
+    req.flash('error_msg', 'Ocorreu um erro interno');
+    res.redirect('/');
+  })
+})
+
+router.get('/deletePost/:id', eAdmin, (req, res)=>{
+  Post.deleteMany({_id: req.params.id}).then(()=>{
+    req.flash('success_msg', 'Postagem deletada com sucesso!')
+    res.redirect('/')
+  }).catch((err)=>{
+    req.flash('error_msg', 'Erro interno ao tentar deletar postagem')
+    res.redirect('/')
+  })
+})
+
+router.get('/editPost/:id', eAdmin, (req, res)=>{
+
+  Post.findOne({_id: req.params.id}).lean().then((post) =>{
+    res.render('editPost', {post:post});
+  }).catch((err)=>{
+    req.flash('error_msg', 'Ocorreu um erro interno');
+    res.redirect('/');
+  })
+
+})
+
+router.post('/editPost', eAdmin, (req, res)=>{
+
+  Post.findOne({_id:req.body.id}).then((post)=>{
+
+    post.title = req.body.title;
+    post.subTitle = req.body.subTitle
+    post.description = req.body.description;
+    post.content = req.body.content;
+
+    post.save().then(() => {
+        req.flash('success_msg', 'Postagem editada com sucesso!')
+        res.redirect('/')
+    }).catch((err)=>{
+        req.flash('error_msg', 'Erro interno')
+        res.redirect('/');
+    })
+
+  }).catch((err)=>{
+    req.flash('error_msg', 'Ocorreu um erro ao salvar as alterações na edição da postagem')
+    res.redirect('/')
+  })
+
 })
 
 module.exports = router;
