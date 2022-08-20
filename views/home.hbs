@@ -21,15 +21,14 @@
     </div>
   {{else}}
     <h2>Nenhuma postagem registrada</h2>
-    <a href="/newPost"><button class="btn btn-primary" type="button" style="margin: 20px">Criar Postagem</button></a>
   {{/each}}
 
 {{else}}
   {{#each users}}
     <div class="card">
       <div class="card-body">
-        <h4 class="card-title">{{title}}</h4>
-        <p class="card-text">Descrição: {{description}}</p><hr>
+        <h4>{{title}}</h4>
+        <p>Descrição: {{description}}</p><hr>
         <small>Sub-Titulo: {{subTitle}}</small><br>
         <small>Criada em: {{date}}</small><br><br>
         <a href="/postContent/{{_id}}" class="card-link"><button class="btn btn-primary">Detalhamento</button></a>
@@ -41,20 +40,4 @@
   {{/each}}
 {{/if}}
 
-{{#each users}}
-    <div class="card">
-    <div class="card-body">
-      <h4 class="card-title">{{title}}</h4>
-      <p class="card-text">Descrição: {{description}}</p><hr>
-      <small>Sub-Titulo: {{subTitle}}</small><br>
-      <small>Criada em: {{date}}</small><br><br>
-      <a href="/postContent/{{_id}}" class="card-link"><button class="btn btn-primary">Detalhamento</button></a>
-        <a href="/editPost/{{_id}}" class="card-link"><button class="btn btn-success">Editar Postagem</button></a>
-        <a href="/deletePost/{{_id}}" class="card-link"><button class="btn btn-danger">Excluir Postagem</button></a>
-    </div>
-  </div>
-{{else}}
-  <h2>Nenhuma postagem registrada</h2>
-  <a href="/newPost"><button class="btn btn-primary" type="button" style="margin: 20px">Criar Postagem</button></a>
-{{/each}}
 
