@@ -8,7 +8,6 @@ const helpers = require("../helpers/admin");
 router.post("/addcomment", helpers.eAdmin, function (req, res) {
     Post.findById(req.body.post_id, function (err, post) {
         if (err) {
-            console.log(err);
             res.redirect("/postContent/" + req.body.post_id);
         } else {
             const comment = {
@@ -23,7 +22,6 @@ router.post("/addcomment", helpers.eAdmin, function (req, res) {
                     req.flash("error_msg", "Seu comentário não foi salvo");
                     res.redirect("/postContent/" + req.body.post_id);
                 } else {
-                    // Save comment, add to post, and save post
                     comment.save();
                     post.comments.push(comment);
                     post.save();
@@ -59,7 +57,6 @@ router.post(
     function (req, res) {
         Comment.findById(req.body._id)
             .then((comment) => {
-                console.log(comment);
                 comment.content = req.body.content;
                 comment
                     .save()
