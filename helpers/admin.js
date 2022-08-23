@@ -16,11 +16,14 @@ const helpers = {
     getDisplayName: (user) => {
         return user.displayName;
     },
-    getUserId: (currentUser) => {
-        return currentUser._id;
+    getUserBio: (user) => {
+        return user.bio;
     },
-    getPostmatch: (posts, postId) => {
-        console.log(posts);
+    getUserEmail: (user) => {
+        return user.email;
+    },
+    getUserId: (user) => {
+        return user._id;
     },
     getContent: (comment) => {
         return comment.content;
@@ -29,14 +32,12 @@ const helpers = {
         return comment._id;
     },
     checkCommentOwnership: function (req, res, next) {
-        // Is user logged in?
         if (req.isAuthenticated()) {
             Comment.findById(req.params._id, function (err, foundComment) {
                 if (err || !foundComment) {
                     req.flash("error", "Comment not found");
                     res.redirect("back");
                 } else {
-                    // Does user own the comment?
                     if (foundComment.authorId == req.user.id) {
                         next();
                     } else {
