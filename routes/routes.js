@@ -14,7 +14,6 @@ const Comment = mongoose.model("Comment");
 router.get("/", function (req, res) {
     Post.find()
         .lean()
-        .sort({ data: "desc" })
         .then((posts) => {
             res.render("home", { posts: posts });
         })
@@ -28,7 +27,7 @@ router.get("/login", function (req, res) {
     res.render("login");
 });
 
-router.get("/profile/:id", eAdmin, function (req, res) {
+router.get("/profile/:id", function (req, res) {
     Comment.find({ authorId: req.params.id })
         .lean()
         .sort({ data: "desc" })
@@ -37,8 +36,66 @@ router.get("/profile/:id", eAdmin, function (req, res) {
                 .lean()
                 .sort({ data: "desc" })
                 .then((posts) => {
-                    res.render("profile", { comments: comments, posts: posts });
+                    res.render("profile", {
+                        comments: comments,
+                        posts: posts,
+                        commentsCont: comments.length,
+                        postsCont: posts.length,
+                    });
                 });
+        });
+});
+
+router.get("/editProfile/:id", eAdmin, (req, res) => {
+    User.findOne({ _id: req.params.id })
+        .lean()
+        .then((currentUser) => {
+            res.render("editProfile", { currentUser: currentUser });
+        })
+        .catch((err) => {
+            req.flash("error_msg", "Ocorreu um erro interno");
+            res.redirect("/");
+        });
+});
+
+router.post("/editProfile/:id", eAdmin, (req, res) => {
+    User.findById(req.params.id)
+        .then((updateUser) => {
+            (updateUser.displayName = req.body.displayNome),
+                (updateUser.email = req.body.email),
+                (updateUser.password = req.body.password),
+                (updateUser.bio = req.body.bio),
+                bcrypt.genSalt(10, (err, salt) => {
+                    bcrypt.hash(updateUser.password, salt, (err, hash) => {
+                        if (err) {
+                            req.flash("error", "Erro ao criar usuário.");
+                            res.redirect("/");
+                        }
+
+                        updateUser.password = hash;
+                        updateUser
+                            .save()
+                            .then(() => {
+                                req.flash(
+                                    "success_msg",
+                                    "Usuário editado com sucesso!"
+                                );
+                                res.redirect("logout");
+                            })
+                            .catch((err) => {
+                                req.flash("error_msg", "Erro interno");
+                                console.log("error: " + err);
+                                res.redirect("/");
+                            });
+                    });
+                });
+        })
+        .catch((err) => {
+            req.flash(
+                "error_msg",
+                "Ocorreu um erro ao salvar as alterações na edição do usuário"
+            );
+            res.redirect("/");
         });
 });
 
@@ -176,6 +233,7 @@ router.get("/postContent/:id", (req, res) => {
         .then((post) => {
             Comment.find({ postId: req.params.id })
                 .lean()
+                .sort({ createdAt: "descending" })
                 .then((comments) => {
                     res.render("postContent", {
                         post: post,
