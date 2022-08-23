@@ -1,0 +1,14 @@
+<div class="card">
+    <div class="card-body">
+        <h4>Editar comentario:</h4>
+        <form action="/commentsEdit/{{getCommentId comments}}" method="post">
+            <label for="content">Conteúdo: </label>
+            <input type="hidden" name="_id" value="{{getCommentId comments}}">
+            <textarea name="content" class="form-control">{{getContent comments}}</textarea>
+            <button class="btn btn-success mt-4" type="submit">Salvar alterações</button>
+        </form>
+        <script>
+            console.log(comments)
+        </script>
+    </div>
+</div>
