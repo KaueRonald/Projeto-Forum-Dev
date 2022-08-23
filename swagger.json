@@ -1,0 +1,490 @@
+{
+    "openapi": "3.0.0",
+    "info": {
+        "title": "API de fórum de postagens",
+        "description": "Essa API tem como objetivo postagens sobre assuntos diversos",
+        "contact": {
+            "email": "Kaueronald21.kr@gmail.com"
+        },
+        "version": "1.0.0"
+    },
+    "servers": [
+        {
+            "url": "http://localhost:3001/",
+            "description": "API de test"
+        }
+    ],
+    "paths": {
+        "/ || home": {
+            "get": {
+                "summary": "rota que mostra os posts na página inicial",
+                "description": "Esta rota é responsável por trazer as postagens para a página incial da aplicação!",
+                "tags": [
+                    "/ || home"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "posts",
+                        "in": "query",
+                        "description": "Os posts irão aparecer na página inicial",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Postagem ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/addPost"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/profile/:id": {
+            "get": {
+                "summary": "rota que mostra o perfil do usuário",
+                "description": "Esta rota é responsável por mostrar o perfil do usuário com seus posts e comentários",
+                "tags": [
+                    "/profile/:id"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "profile",
+                        "in": "query",
+                        "description": "O perfil do usuário será exibido com suas postagens",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Perfil do usuário logado! ",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/profile"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/login": {
+            "post": {
+                "summary": "login de usuário",
+                "description": "Essa rota é responsável por logar o usuário na aplicação",
+                "tags": [
+                    "login"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/login"
+                            },
+                            "examples": {
+                                "usuário": {
+                                    "value": {
+                                        "email": "Kaue.ronald@gmail.com",
+                                        "password": "123456789"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Logado com Sucesso!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/login"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "valores inválidos, ou usuário inexistente!"
+                    }
+                }
+            }
+        },
+        "/logout": {
+            "get": {
+                "summary": "logout de usuário",
+                "description": "Essa rota é responsável por deslogar o usuário na aplicação",
+                "tags": [
+                    "logout"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "query",
+                        "description": "Usuário que será deslogadao de sua conta",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deslogado com Sucesso!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/login"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/signup": {
+            "post": {
+                "summary": "Cadastro de usuário",
+                "description": "Essa rota é responsável por Cadastrar o usuário na aplicação",
+                "tags": [
+                    "signup"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/signup"
+                            },
+                            "examples": {
+                                "usuário": {
+                                    "value": {
+                                        "displayName": "kaue",
+                                        "email": "Kaue.ronald@gmail.com",
+                                        "password": "123456789",
+                                        "confirmedPassword": "123456789"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Cadastrado com Sucesso!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/signup"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "valores inválidos!"
+                    }
+                }
+            }
+        },
+        "/addPost": {
+            "post": {
+                "summary": "Adição de postagens",
+                "description": "Essa rota é responsável por adicionar uma nova postagem",
+                "tags": [
+                    "addPost"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/addPost"
+                            },
+                            "examples": {
+                                "Posts": {
+                                    "value": {
+                                        "title": "nova postagem",
+                                        "description": "essa é uma descirção da nova postagem",
+                                        "content": "seria o conteúdo da postagem"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "Nova Postagem adicionada!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/addPost"
+                                }
+                            }
+                        }
+                    },
+                    "400": {
+                        "description": "valores inválidos, ou inexistentes!"
+                    }
+                }
+            }
+        },
+        "/postContent/:id": {
+            "get": {
+                "description": "Busca as postagens pelo o id",
+                "summary": "Busca a postagem pelo o id",
+                "tags": [
+                    "Postagens"
+                ],
+                "parameters": [
+                    {
+                        "title": "Titulo",
+                        "in": "get",
+                        "description": "Nome da Postagem pelo ID",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "ok!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/addPost"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/deletePost/:id": {
+            "get": {
+                "summary": "Deletando",
+                "description": "Essa rota é responsável por deletar as postagens",
+                "tags": [
+                    "delete"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "query",
+                        "description": "Postagem que será deletada",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Deletada com sucesso!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/addPost"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/editPost/:id": {
+            "get": {
+                "summary": "Editando por ID",
+                "description": "Essa rota é responsável por editar as postagens pelo ID",
+                "tags": [
+                    "Edit por ID"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "parameters": [
+                    {
+                        "name": "user",
+                        "in": "query",
+                        "description": "Postagem editada",
+                        "required": true
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "Editada com Sucesso!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/addPost"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        },
+        "/editPost": {
+            "post": {
+                "summary": "Edição de postagens",
+                "description": "Essa rota é responsável por editar toda postagem",
+                "tags": [
+                    "Edit Post"
+                ],
+                "security": [
+                    {
+                        "bearerAuth": []
+                    }
+                ],
+                "requestBody": {
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/components/schemas/addPost"
+                            },
+                            "examples": {
+                                "Posts": {
+                                    "value": {
+                                        "title": "nova postagem",
+                                        "subtitle": "subtitulo da postagem",
+                                        "description": "essa é uma descirção da nova postagem",
+                                        "content": "seria o conteúdo da postagem"
+                                    }
+                                }
+                            }
+                        }
+                    }
+                },
+                "responses": {
+                    "200": {
+                        "description": "postagem editada!",
+                        "content": {
+                            "application/json": {
+                                "schema": {
+                                    "type": "object",
+                                    "$ref": "#/components/schemas/addPost"
+                                }
+                            }
+                        }
+                    }
+                }
+            }
+        }
+    },
+    "components": {
+        "schemas": {
+            "login": {
+                "type": "object",
+                "properties": {
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "number"
+                    }
+                }
+            },
+            "signup": {
+                "type": "object",
+                "properties": {
+                    "displayName": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "password": {
+                        "type": "number"
+                    },
+                    "confirmedPassword": {
+                        "type": "number"
+                    }
+                }
+            },
+            "addPost": {
+                "type": "object",
+                "properties": {
+                    "title": {
+                        "type": "String"
+                    },
+                    "content": {
+                        "type": "String",
+                        "required": "true"
+                    },
+                    "authorName": {
+                        "type": "String",
+                        "required": "true"
+                    },
+                    "authorId": {
+                        "type": "String",
+                        "required": "true"
+                    },
+                    "date": {
+                        "type": "date"
+                    }
+                }
+            },
+            "profile": {
+                "type": "object",
+                "properties": {
+                    "displayName": {
+                        "type": "string"
+                    },
+                    "email": {
+                        "type": "string"
+                    },
+                    "text": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "securityschemes": {
+            "bearerAuth": {
+                "type": "http",
+                "scheme": "bearer",
+                "bearerFormat": "JWT"
+            }
+        }
+    }
+}
