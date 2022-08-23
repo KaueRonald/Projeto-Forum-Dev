@@ -13,6 +13,9 @@
           <h4 class="card-title">{{title}}</h4>
           <p class="card-text">Descrição: {{content}}</p>
           <hr>
+          <div>
+            <p>Criado por: <a href="/profile/{{authorId}}">{{authorName}}</a></p>
+          </div>
           <small>Criada em: {{date}}</small><br><br>
           <a href="/postContent/{{_id}}" class="card-link"><button class="btn btn-primary">Detalhamento</button></a>
           <a href="/editPost/{{_id}}" class="card-link"><button class="btn btn-success">Editar Postagem</button></a>
@@ -30,6 +33,9 @@
           <h4 class="card-title">{{title}}</h4>
           <p class="card-text">Descrição: {{content}}</p>
           <hr>
+          <div>
+            <p>Criado por: <a href="/profile/{{authorId}}">{{authorName}}</a></p>
+          </div>
           <small>Criada em: {{date}}</small><br><br>
           <a href="/postContent/{{_id}}" class="card-link"><button class="btn btn-primary">Detalhamento</button></a>
         </div>

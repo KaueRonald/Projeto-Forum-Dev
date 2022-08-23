@@ -3,19 +3,19 @@
 <div class="card">
     <div class="card-body">
         <h3>{{post.title}}</h3>
+        <div>
+            <p>Criado por: <a href="/profile/{{post.authorId}}">{{post.authorName}}</a></p>
+        </div>
         <hr>
         <strong>Conteúdo:</strong>
         <p>{{post.content}}</p>
     </div>
     <div class="accordion-item">
-        <button class="comment-button accordion-button" type="button">
-            Comentar
-        </button>
         <div>
             <p>
-                <button class="btn btn-primary collapsed" type="button" data-bs-toggle="collapse"
+                <button class="btn accordion-button collapsed" type="button" data-bs-toggle="collapse"
                     data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
-                    Button with data-bs-target
+                    Comentar ->
                 </button>
             </p>
             <div class="collapse" id="collapseExample">
@@ -39,12 +39,12 @@
             <div class="card-body">
                 <p class="card-text">{{content}}</p>
                 <div>
-                    <p>Comentário feito por: {{authorName}}</p>
+                    <p>Comentário feito por: <a href="/profile/{{authorId}}">{{authorName}}</a></p>
                 </div>
                 <a href="/commentsEdit/{{_id}}" class="card-link"><button class="btn btn-success">Editar
-                        Postagem</button></a>
+                        comentário</button></a>
                 <a href="/commentsExcluir/{{_id}}" class="card-link"><button class="btn btn-danger">Excluir
-                        Postagem</button></a>
+                        comentário</button></a>
             </div>
         </div>
     {{else}}
