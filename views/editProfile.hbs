@@ -1,0 +1,22 @@
+<div class="card">
+    <div class="card-body">
+        <h4>Editar Perfil:</h4>
+        <form action="/editProfile/{{getUserId currentUser}}" method="post">
+            <label for="content">Nome: </label>
+            <input type="text" name="displayNome" value="{{getDisplayName currentUser}}">
+
+            <label for="content">email: </label>
+            <input type="text" name="email" value="{{getUserEmail currentUser}}">
+
+            <label for="content">password: </label>
+            <input type="password" name="password">
+
+            <label for="content">Bio:</label>
+            <textarea name="bio" class="form-control">{{getUserBio currentUser}}</textarea>
+            <button class="btn btn-success mt-4" type="submit">Salvar alterações</button>
+        </form>
+        <script>
+            console.log(comments)
+        </script>
+    </div>
+</div>
