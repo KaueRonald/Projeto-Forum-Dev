@@ -15,11 +15,13 @@
         </li>
       </ul>
     </div>
-    {{#if user}}
+    {{#if currentUser}}
       <a href="/newPost"><button class="btn btn-dark" type="button" style="margin: 20px">Criar Postagem</button></a>
-      <div style="d-flex justify-content-between"><a href="/profile"><button class="btn btn-secondary">Kaue</button></a>
+      <div style="d-flex justify-content-between"><a href="/profile/{{getUserId currentUser}}"><button
+            class="btn btn-secondary">{{getDisplayName currentUser}}</button></a>
         <a href="/logout"><button class="btn btn-dark" type="button" style="margin-left: 20px">Sair</button></a>
       </div>
+
     {{else}}
       <a href="/login"><button class="btn btn-dark" type="button" style="margin-left: 20px">Logar</button></a>
       <a href="/signup"><button class="btn btn-dark " type="button" style="margin: 20px">cadastrar</button></a>

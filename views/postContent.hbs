@@ -3,8 +3,55 @@
 <div class="card">
     <div class="card-body">
         <h3>{{post.title}}</h3>
-        <small>{{post.subTitle}}</small><hr>
+        <hr>
         <strong>Conteúdo:</strong>
         <p>{{post.content}}</p>
     </div>
+    <div class="accordion-item">
+        <button class="comment-button accordion-button" type="button">
+            Comentar
+        </button>
+        <div>
+            <p>
+                <button class="btn btn-primary collapsed" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    Button with data-bs-target
+                </button>
+            </p>
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                    <form action="/addcomment" method="post">
+                        <input type="hidden" name="post_id" value="{{post._id}}">
+                        <div class="form-group">
+                            <label for="comment">Comentário</label>
+                            <textarea class="form-control" name="comment" id="comment" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Comentar</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{#each comments}}
+        <div class="card">
+            <div class="card-body">
+                <p class="card-text">{{content}}</p>
+                <div>
+                    <p>Comentário feito por: {{authorName}}</p>
+                </div>
+                <a href="/commentsEdit/{{_id}}" class="card-link"><button class="btn btn-success">Editar
+                        Postagem</button></a>
+                <a href="/commentsExcluir/{{_id}}" class="card-link"><button class="btn btn-danger">Excluir
+                        Postagem</button></a>
+            </div>
+        </div>
+    {{else}}
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Nenhum comentário</h5>
+            </div>
+        </div>
+    {{/each}}
 </div>

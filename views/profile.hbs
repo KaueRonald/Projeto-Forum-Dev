@@ -46,50 +46,56 @@
           <h5 class="mb-0">Recent comments</h5>
         </div>
         <div style="display: flex; gap: 1.5rem; flex-direction: column">
-          <div class="card shadow">
-            <div class="card-header">
-              <p>Tópico: <span>JavaScript</span></p>
+          {{#each comments}}
+            <div class="card shadow">
+              <div class="card-header">
+                {{!-- <p>Tópico: <span>{{getPostmatch posts postId}}</span></p> --}}
+              </div>
+              <div class="card-body">
+                <p class="card-text">{{content}}</p>
+              </div>
+              <div class="d-flex card-footer justify-content-between">
+                <small class="text-muted">Last updated {{updatedAt}}</small>
+                <a href="#" class="btn btn-link text-muted">Go somewhere</a>
+              </div>
             </div>
-            <div class="card-body">
-              <p class="card-text">JavaScript é uma linguagem de programação
-                interpretada estruturada, de script em alto nível com tipagem
-                dinâmica fraca e multiparadigma.</p>
+          {{else}}
+            <div class="card shadow">
+              <div class="card-header">
+                <p>Nenhum comentario encontrado</p>
+              </div>
             </div>
-            <div class="d-flex card-footer justify-content-between">
-              <small class="text-muted">Last updated 3 mins ago</small>
-              <a href="#" class="btn btn-link text-muted">Go somewhere</a>
+          {{/each}}
+        </div>
+      </div>
+      <div class="py-4 px-4">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <h5 class="mb-0">Recent Posts:</h5>
+        </div>
+        <div style="display: flex; gap: 1.5rem; flex-direction: column">
+          {{#each posts}}
+            <div class="card shadow">
+              <div class="card-header">
+                <p>Title: <span>{{title}}</span></p>
+              </div>
+              <div class="card-body">
+                <p class="card-text">{{content}}</p>
+              </div>
+              <div class="d-flex card-footer justify-content-between">
+                <small class="text-muted">Last updated {{updatedAt}}</small>
+                <a href="#" class="btn btn-link text-muted">Go somewhere</a>
+              </div>
             </div>
-          </div>
-          <div class="card shadow">
-            <div class="card-header">
-              <p>Tópico: <span>CSS</span></p>
+          {{else}}
+            <div class="card shadow">
+              <div class="card-header">
+                <p>Nenhum post encontrado</p>
+              </div>
             </div>
-            <div class="card-body">
-              <h5 class="card-title">Special title treatment</h5>
-              <p class="card-text">With supporting text below as a natural
-                lead-in to additional content.</p>
-            </div>
-            <div class="d-flex card-footer justify-content-between">
-              <small class="text-muted">Last updated 3 mins ago</small>
-              <a href="#" class="btn btn-link text-muted">Go somewhere</a>
-            </div>
-          </div>
-          <div class="card shadow">
-            <div class="card-header">
-              <p>Tópico: <span>Html</span></p>
-            </div>
-            <div class="card-body">
-              <h5 class="card-title">Special title treatment</h5>
-              <p class="card-text">With supporting text below as a natural
-                lead-in to additional content.</p>
-            </div>
-            <div class="d-flex card-footer justify-content-between">
-              <small class="text-muted">Last updated 3 mins ago</small>
-              <a href="#" class="btn btn-link text-muted">Go somewhere</a>
-            </div>
-          </div>
+          {{/each}}
         </div>
       </div>
     </div>
+
   </div>
 </div>
