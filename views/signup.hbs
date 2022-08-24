@@ -1,14 +1,14 @@
 <div class="container d-flex flex-column mt-3" style="width: 23rem;">
   {{#each errs}}
-  <div class="alert alert-danger">
-    <strong>Error! </strong> {{text}}
-  </div>
+    <div class="alert alert-danger">
+      <strong>Error! </strong> {{text}}
+    </div>
   {{else}}
 
   {{/each}}
 
   <main class="text-center bs-body mt-0">
-    <div class="shadow form-signup m-auto rounded">
+    <div class="shadow form-signup m-auto rounded p-4">
       <div>
         <h1>Cadastre-se</h1>
         <form class="mt-4" action="/signup" method="post">
