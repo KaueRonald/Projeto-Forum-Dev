@@ -35,12 +35,33 @@ router.get("/profile/:id", function (req, res) {
                 .lean()
                 .sort({ data: "desc" })
                 .then((posts) => {
-                    res.render("profile", {
-                        comments: comments,
-                        posts: posts,
-                        commentsCont: comments.length,
-                        postsCont: posts.length,
-                    });
+                    User.findById(req.params.id)
+                        .lean()
+                        .then((user) => {
+                            let comp;
+
+                            if (req.user) {
+                                if (
+                                    JSON.stringify(user._id) !==
+                                        JSON.stringify(req.user._id) ||
+                                    req.user._id === undefined
+                                ) {
+                                    comp = false;
+                                } else {
+                                    comp = true;
+                                }
+                            } else {
+                                comp = false;
+                            }
+                            res.render("profile", {
+                                comments: comments,
+                                posts: posts,
+                                commentsCont: comments.length,
+                                postsCont: posts.length,
+                                user: user,
+                                comp: comp,
+                            });
+                        });
                 });
         });
 });
@@ -48,8 +69,8 @@ router.get("/profile/:id", function (req, res) {
 router.get("/editProfile/:id", eAdmin, (req, res) => {
     User.findOne({ _id: req.params.id })
         .lean()
-        .then((currentUser) => {
-            res.render("editProfile", { currentUser: currentUser });
+        .then((user) => {
+            res.render("editProfile", { user: user });
         })
         .catch((err) => {
             req.flash("error", "Ocorreu um erro interno");
@@ -75,15 +96,24 @@ router.post("/editProfile/:id", eAdmin, (req, res) => {
                         updateUser
                             .save()
                             .then(() => {
+                                Post.find({ authorId: req.params.id }).then(
+                                    (posts) => {
+                                        for (let i = 0; i < posts.length; i++) {
+                                            posts[i].authorName =
+                                                updateUser.displayName;
+                                            posts[i].save();
+                                        }
+                                    }
+                                );
+
                                 req.flash(
                                     "success",
                                     "Usuário editado com sucesso!"
                                 );
-                                res.redirect("logout");
+                                res.redirect("/");
                             })
                             .catch((err) => {
                                 req.flash("error", "Erro interno");
-                                console.log("error: " + err);
                                 res.redirect("/");
                             });
                     });
@@ -163,10 +193,7 @@ router.post("/signup", function (req, res) {
                     bcrypt.genSalt(10, (err, salt) => {
                         bcrypt.hash(newUser.password, salt, (err, hash) => {
                             if (err) {
-                                req.flash(
-                                    "error",
-                                    "Erro ao criar usuário."
-                                );
+                                req.flash("error", "Erro ao criar usuário.");
                                 res.redirect("/");
                             }
 
@@ -178,7 +205,7 @@ router.post("/signup", function (req, res) {
                                         "success",
                                         "Usuário criado com sucesso."
                                     );
-                                    res.redirect("/")
+                                    res.redirect("/");
                                 })
                                 .catch((err) => {
                                     req.flash(
@@ -251,9 +278,9 @@ router.get("/deletePost/:id", eAdmin, checkPostOwnership, (req, res) => {
     Post.deleteMany({ _id: req.params.id })
         .then(() => {
             Comment.deleteMany({ postId: req.params.id }).then(() => {
-            req.flash("success", "Postagem deletada com sucesso!");
-            res.redirect("/");
-            })
+                req.flash("success", "Postagem deletada com sucesso!");
+                res.redirect("/");
+            });
         })
         .catch((err) => {
             req.flash("error", "Erro interno ao tentar deletar postagem");

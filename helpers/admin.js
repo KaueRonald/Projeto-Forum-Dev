@@ -7,10 +7,7 @@ const helpers = {
             return next();
         }
 
-        req.flash(
-            "error",
-            "Você precisa estar logado para fazer isso!"
-        );
+        req.flash("error", "Você precisa estar logado para fazer isso!");
         res.redirect("/");
     },
     getDisplayName: (user) => {
@@ -56,7 +53,7 @@ const helpers = {
     },
     checkPostOwnership: function (req, res, next) {
         if (req.isAuthenticated()) {
-            Post.findById(req.params._id, function (err, foundPost) {
+            Post.findById(req.params.id, function (err, foundPost) {
                 if (err || !foundPost) {
                     req.flash("error", "Você só pode alterar suas postagens");
                     res.redirect("back");
