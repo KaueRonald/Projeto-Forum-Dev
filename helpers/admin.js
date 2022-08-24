@@ -9,7 +9,7 @@ const helpers = {
 
         req.flash(
             "error",
-            "Você precisa estar logado para acessar essa página!"
+            "Você precisa estar logado para fazer isso!"
         );
         res.redirect("/");
     },
@@ -43,14 +43,37 @@ const helpers = {
                     } else {
                         req.flash(
                             "error",
-                            "You don't have permission to do that"
+                            "Você não tem permissão para fazer isso"
                         );
                         res.redirect("back");
                     }
                 }
             });
         } else {
-            req.flash("error", "You must be logged in to do that");
+            req.flash("error", "Você precisa estar logado para fazer isso!");
+            res.redirect("back");
+        }
+    },
+    checkPostOwnership: function (req, res, next) {
+        if (req.isAuthenticated()) {
+            Post.findById(req.params._id, function (err, foundPost) {
+                if (err || !foundPost) {
+                    req.flash("error", "Você só pode alterar suas postagens");
+                    res.redirect("back");
+                } else {
+                    if (foundPost.authorId == req.user.id) {
+                        next();
+                    } else {
+                        req.flash(
+                            "error",
+                            "Você não tem permissão para fazer isso"
+                        );
+                        res.redirect("back");
+                    }
+                }
+            });
+        } else {
+            req.flash("error", "Você precisa estar logado para fazer isso!");
             res.redirect("back");
         }
     },
