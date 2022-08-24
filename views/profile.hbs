@@ -11,16 +11,14 @@
               src="https://images.unsplash.com/photo-1522075469751-3a6694fb2f61?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=500&q=80"
               alt="..." width="130" class="rounded mb-4 img-thumbnail" />
             <div class="media-body mb-4 text-white">
-              <a href="/editProfile/{{getUserId currentUser}}" class="btn btn-outline-dark btn-block"
-                style="--bs-btn-padding-y: .30rem; --bs-btn-padding-x: 2rem; --bs-btn-font-size: .79rem;">Edit
-                profile</a>
+              <a href="/editProfile/{{getUserId currentUser}}" class="btn btn-outline-light btn-block"
+                style="--bs-btn-padding-y: .30rem; --bs-btn-padding-x: 2rem; --bs-btn-font-size: .79rem;">Edite Perfil</a>
             </div>
           </div>
           <div class="media-body ms-3 text-white">
             <h4 class="mt-0 mb-0">{{getDisplayName currentUser}}</h4>
             <p>{{getUserBio currentUser}}</p>
           </div>
-
         </div>
       </div>
       <div class="bg-light p-4 d-flex justify-content-end text-center">
@@ -50,7 +48,6 @@
               </div>
               <div class="d-flex card-footer justify-content-between">
                 <small class="text-muted">Last updated {{updatedAt}}</small>
-                <a href="#" class="btn btn-link text-muted">Go somewhere</a>
               </div>
             </div>
           {{else}}
@@ -77,7 +74,6 @@
               </div>
               <div class="d-flex card-footer justify-content-between">
                 <small class="text-muted">Last updated {{updatedAt}}</small>
-                <a href="#" class="btn btn-link text-muted">Go somewhere</a>
               </div>
             </div>
           {{else}}
