@@ -1,9 +1,8 @@
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const passport = require("passport");
-const { eAdmin } = require("../helpers/admin");
+const { eAdmin, checkPostOwnership } = require("../helpers/admin");
 const { default: mongoose } = require("mongoose");
-
 require("../models/User");
 require("../models/Post");
 require("../models/Comment");
@@ -18,7 +17,7 @@ router.get("/", function (req, res) {
             res.render("home", { posts: posts });
         })
         .catch((err) => {
-            req.flash("error_msg", "Houve um erro interno!");
+            req.flash("error", "Houve um erro interno!");
             res.redirect("/404");
         });
 });
@@ -53,7 +52,7 @@ router.get("/editProfile/:id", eAdmin, (req, res) => {
             res.render("editProfile", { currentUser: currentUser });
         })
         .catch((err) => {
-            req.flash("error_msg", "Ocorreu um erro interno");
+            req.flash("error", "Ocorreu um erro interno");
             res.redirect("/");
         });
 });
@@ -77,13 +76,13 @@ router.post("/editProfile/:id", eAdmin, (req, res) => {
                             .save()
                             .then(() => {
                                 req.flash(
-                                    "success_msg",
+                                    "success",
                                     "Usuário editado com sucesso!"
                                 );
                                 res.redirect("logout");
                             })
                             .catch((err) => {
-                                req.flash("error_msg", "Erro interno");
+                                req.flash("error", "Erro interno");
                                 console.log("error: " + err);
                                 res.redirect("/");
                             });
@@ -92,7 +91,7 @@ router.post("/editProfile/:id", eAdmin, (req, res) => {
         })
         .catch((err) => {
             req.flash(
-                "error_msg",
+                "error",
                 "Ocorreu um erro ao salvar as alterações na edição do usuário"
             );
             res.redirect("/");
@@ -113,7 +112,7 @@ router.post("/login", function (req, res, next) {
 
 router.get("/logout", function (req, res) {
     req.logout(function (err) {
-        req.flash("success_msg", "Deslogado com sucesso!");
+        req.flash("success", "Deslogado com sucesso!");
         if (err) {
             return next(err);
         }
@@ -152,7 +151,7 @@ router.post("/signup", function (req, res) {
         User.findOne({ email: email })
             .then((user) => {
                 if (user) {
-                    req.flash("error_msg", "Email já cadastrado.");
+                    req.flash("error", "Email já cadastrado.");
                     res.redirect("/signup");
                 } else {
                     const newUser = new User({
@@ -165,7 +164,7 @@ router.post("/signup", function (req, res) {
                         bcrypt.hash(newUser.password, salt, (err, hash) => {
                             if (err) {
                                 req.flash(
-                                    "error_msg",
+                                    "error",
                                     "Erro ao criar usuário."
                                 );
                                 res.redirect("/");
@@ -176,13 +175,14 @@ router.post("/signup", function (req, res) {
                                 .save()
                                 .then((user) => {
                                     req.flash(
-                                        "success_msg",
+                                        "success",
                                         "Usuário criado com sucesso."
                                     );
+                                    res.redirect("/")
                                 })
                                 .catch((err) => {
                                     req.flash(
-                                        "error_msg",
+                                        "error",
                                         "Erro ao criar usuário, tente novamente."
                                     );
                                     res.redirect("/signup");
@@ -192,7 +192,7 @@ router.post("/signup", function (req, res) {
                 }
             })
             .catch((err) => {
-                req.flash("error_msg", "Erro ao cadastrar usuário.");
+                req.flash("error", "Erro ao cadastrar usuário.");
                 res.redirect("/");
             });
     }
@@ -218,11 +218,11 @@ router.post("/addPost", eAdmin, (req, res) => {
     new Post(newPost)
         .save()
         .then(() => {
-            req.flash("success_msg", "Postagerm criada com sucesso");
+            req.flash("success", "Postagerm criada com sucesso");
             res.redirect("/");
         })
         .catch((err) => {
-            req.flash("error_msg", "Houve um erro na criação da postagem");
+            req.flash("error", "Houve um erro na criação da postagem");
             res.redirect("/");
         });
 });
@@ -242,31 +242,33 @@ router.get("/postContent/:id", (req, res) => {
                 });
         })
         .catch((err) => {
-            req.flash("error_msg", "Ocorreu um erro interno");
+            req.flash("error", "Ocorreu um erro interno");
             res.redirect("/");
         });
 });
 
-router.get("/deletePost/:id", eAdmin, (req, res) => {
+router.get("/deletePost/:id", eAdmin, checkPostOwnership, (req, res) => {
     Post.deleteMany({ _id: req.params.id })
         .then(() => {
-            req.flash("success_msg", "Postagem deletada com sucesso!");
+            Comment.deleteMany({ postId: req.params.id }).then(() => {
+            req.flash("success", "Postagem deletada com sucesso!");
             res.redirect("/");
+            })
         })
         .catch((err) => {
-            req.flash("error_msg", "Erro interno ao tentar deletar postagem");
+            req.flash("error", "Erro interno ao tentar deletar postagem");
             res.redirect("/");
         });
 });
 
-router.get("/editPost/:id", eAdmin, (req, res) => {
+router.get("/editPost/:id", eAdmin, checkPostOwnership, (req, res) => {
     Post.findOne({ _id: req.params.id })
         .lean()
         .then((post) => {
             res.render("editPost", { post: post });
         })
         .catch((err) => {
-            req.flash("error_msg", "Ocorreu um erro interno");
+            req.flash("error", "Ocorreu um erro interno");
             res.redirect("/");
         });
 });
@@ -281,17 +283,17 @@ router.post("/editPost", eAdmin, (req, res) => {
 
             post.save()
                 .then(() => {
-                    req.flash("success_msg", "Postagem editada com sucesso!");
+                    req.flash("success", "Postagem editada com sucesso!");
                     res.redirect("/");
                 })
                 .catch((err) => {
-                    req.flash("error_msg", "Erro interno");
+                    req.flash("error", "Erro interno");
                     res.redirect("/");
                 });
         })
         .catch((err) => {
             req.flash(
-                "error_msg",
+                "error",
                 "Ocorreu um erro ao salvar as alterações na edição da postagem"
             );
             res.redirect("/");
