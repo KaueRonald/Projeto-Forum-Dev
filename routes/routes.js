@@ -1,6 +1,9 @@
 const router = require("express").Router();
 const bcrypt = require("bcrypt");
 const passport = require("passport");
+const path = require("path");
+const fs = require("fs");
+const multer = require("multer");
 const { eAdmin, checkPostOwnership } = require("../helpers/admin");
 const { default: mongoose } = require("mongoose");
 require("../models/User");
@@ -9,6 +12,18 @@ require("../models/Comment");
 const User = mongoose.model("User");
 const Post = mongoose.model("Post");
 const Comment = mongoose.model("Comment");
+
+// Configuração de armazenamento
+const storage = multer.diskStorage({
+    destination: function (req, file, cb) {
+        cb(null, path.join(__dirname, "../public/uploads/"));
+    },
+    filename: function (req, file, cb) {
+        cb(null, file.originalname);
+    },
+});
+
+const upload = multer({ storage });
 
 //homepage
 router.get("/", function (req, res) {
@@ -23,7 +38,7 @@ router.get("/", function (req, res) {
         });
 });
 
-//renderização da página de Login 
+//renderização da página de Login
 router.get("/login", function (req, res) {
     res.render("login");
 });
@@ -54,7 +69,7 @@ router.get("/profile/:id", function (req, res) {
                             if (req.user) {
                                 if (
                                     JSON.stringify(user._id) !==
-                                    JSON.stringify(req.user._id) ||
+                                        JSON.stringify(req.user._id) ||
                                     req.user._id === undefined
                                 ) {
                                     comp = false;
@@ -64,6 +79,8 @@ router.get("/profile/:id", function (req, res) {
                             } else {
                                 comp = false;
                             }
+
+                            const img = `data:"image/png";base64,${user.img}`;
                             res.render("profile", {
                                 comments: comments,
                                 posts: posts,
@@ -71,6 +88,7 @@ router.get("/profile/:id", function (req, res) {
                                 postsCont: posts.length,
                                 user: user,
                                 comp: comp,
+                                img: img,
                             });
                         });
                 });
@@ -89,13 +107,25 @@ router.get("/editProfile/:id", eAdmin, (req, res) => {
         });
 });
 //Editar perfil pegando o id
-router.post("/editProfile/:id", eAdmin, (req, res) => {
-    User.findById(req.params.id)
-        .then((updateUser) => {
-            (updateUser.displayName = req.body.displayNome),
-                (updateUser.email = req.body.email),
-                (updateUser.password = req.body.password),
-                (updateUser.bio = req.body.bio),
+router.post(
+    "/editProfile/:id",
+    eAdmin,
+    upload.single("imageUser"),
+    (req, res) => {
+        User.findById(req.params.id)
+            .then((updateUser) => {
+                const img = fs.readFileSync(
+                    "./public/uploads/" + req.file.filename,
+                    {
+                        encoding: "base64",
+                    }
+                );
+
+                updateUser.displayName = req.body.displayNome;
+                updateUser.email = req.body.email;
+                updateUser.password = req.body.password;
+                updateUser.bio = req.body.bio;
+                updateUser.img = img;
                 bcrypt.genSalt(10, (err, salt) => {
                     bcrypt.hash(updateUser.password, salt, (err, hash) => {
                         if (err) {
@@ -129,15 +159,16 @@ router.post("/editProfile/:id", eAdmin, (req, res) => {
                             });
                     });
                 });
-        })
-        .catch((err) => {
-            req.flash(
-                "error",
-                "Ocorreu um erro ao salvar as alterações na edição do usuário"
-            );
-            res.redirect("/");
-        });
-});
+            })
+            .catch((err) => {
+                req.flash(
+                    "error",
+                    "Ocorreu um erro ao salvar as alterações na edição do usuário"
+                );
+                res.redirect("/");
+            });
+    }
+);
 
 //Cadastro
 router.get("/signup", function (req, res) {
@@ -234,7 +265,6 @@ router.get("/logout", function (req, res) {
         res.redirect("/");
     });
 });
-
 
 //Postagem
 router.get("/newPost", eAdmin, (req, res) => {

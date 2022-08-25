@@ -1,7 +1,7 @@
 <div class="card">
     <div class="card-body">
         <h4>Editar Perfil:</h4>
-        <form action="/editProfile/{{getUserId currentUser}}" method="post">
+        <form action="/editProfile/{{getUserId currentUser}}" method="post" enctype="multipart/form-data">
             <label for="content">Nome: </label>
             <input type="text" name="displayNome" value="{{getDisplayName currentUser}}">
 
@@ -14,10 +14,9 @@
             <label for="content">Bio:</label>
             <textarea name="bio" class="form-control">{{getUserBio currentUser}}</textarea>
 
+            <input type="file" name="imageUser" id="imageUser">
+
             <button class="btn btn-success mt-4" type="submit">Salvar alterações</button>
         </form>
-        <script>
-            console.log(comments)
-        </script>
     </div>
 </div>
