@@ -10,6 +10,7 @@ const User = mongoose.model("User");
 const Post = mongoose.model("Post");
 const Comment = mongoose.model("Comment");
 
+//homepage
 router.get("/", function (req, res) {
     Post.find()
         .lean()
@@ -22,10 +23,20 @@ router.get("/", function (req, res) {
         });
 });
 
+//renderização da página de Login 
 router.get("/login", function (req, res) {
     res.render("login");
 });
+//Login
+router.post("/login", function (req, res, next) {
+    passport.authenticate("local", {
+        successRedirect: "/",
+        failureRedirect: "/login",
+        failureFlash: true,
+    })(req, res, next);
+});
 
+//Perfil
 router.get("/profile/:id", function (req, res) {
     Comment.find({ authorId: req.params.id })
         .lean()
@@ -43,7 +54,7 @@ router.get("/profile/:id", function (req, res) {
                             if (req.user) {
                                 if (
                                     JSON.stringify(user._id) !==
-                                        JSON.stringify(req.user._id) ||
+                                    JSON.stringify(req.user._id) ||
                                     req.user._id === undefined
                                 ) {
                                     comp = false;
@@ -65,7 +76,7 @@ router.get("/profile/:id", function (req, res) {
                 });
         });
 });
-
+//Editar Perfil
 router.get("/editProfile/:id", eAdmin, (req, res) => {
     User.findOne({ _id: req.params.id })
         .lean()
@@ -77,7 +88,7 @@ router.get("/editProfile/:id", eAdmin, (req, res) => {
             res.redirect("/");
         });
 });
-
+//Editar perfil pegando o id
 router.post("/editProfile/:id", eAdmin, (req, res) => {
     User.findById(req.params.id)
         .then((updateUser) => {
@@ -128,29 +139,11 @@ router.post("/editProfile/:id", eAdmin, (req, res) => {
         });
 });
 
+//Cadastro
 router.get("/signup", function (req, res) {
     res.render("signup");
 });
-
-router.post("/login", function (req, res, next) {
-    passport.authenticate("local", {
-        successRedirect: "/",
-        failureRedirect: "/login",
-        failureFlash: true,
-    })(req, res, next);
-});
-
-router.get("/logout", function (req, res) {
-    req.logout(function (err) {
-        req.flash("success", "Deslogado com sucesso!");
-        if (err) {
-            return next(err);
-        }
-
-        res.redirect("/");
-    });
-});
-
+//Rota post de Cadastro
 router.post("/signup", function (req, res) {
     let errs = [];
 
@@ -230,10 +223,23 @@ router.post("/signup", function (req, res) {
     });
 });
 
+//Sair
+router.get("/logout", function (req, res) {
+    req.logout(function (err) {
+        req.flash("success", "Deslogado com sucesso!");
+        if (err) {
+            return next(err);
+        }
+
+        res.redirect("/");
+    });
+});
+
+
+//Postagem
 router.get("/newPost", eAdmin, (req, res) => {
     res.render("newPost");
 });
-
 router.post("/addPost", eAdmin, (req, res) => {
     const newPost = {
         title: req.body.title,
@@ -253,7 +259,21 @@ router.post("/addPost", eAdmin, (req, res) => {
             res.redirect("/");
         });
 });
-
+//Deletar postagem
+router.get("/deletePost/:id", eAdmin, checkPostOwnership, (req, res) => {
+    Post.deleteMany({ _id: req.params.id })
+        .then(() => {
+            Comment.deleteMany({ postId: req.params.id }).then(() => {
+                req.flash("success", "Postagem deletada com sucesso!");
+                res.redirect("/");
+            });
+        })
+        .catch((err) => {
+            req.flash("error", "Erro interno ao tentar deletar postagem");
+            res.redirect("/");
+        });
+});
+//Pegar postagem por id
 router.get("/postContent/:id", (req, res) => {
     Post.findOne({ _id: req.params.id })
         .lean()
@@ -274,20 +294,7 @@ router.get("/postContent/:id", (req, res) => {
         });
 });
 
-router.get("/deletePost/:id", eAdmin, checkPostOwnership, (req, res) => {
-    Post.deleteMany({ _id: req.params.id })
-        .then(() => {
-            Comment.deleteMany({ postId: req.params.id }).then(() => {
-                req.flash("success", "Postagem deletada com sucesso!");
-                res.redirect("/");
-            });
-        })
-        .catch((err) => {
-            req.flash("error", "Erro interno ao tentar deletar postagem");
-            res.redirect("/");
-        });
-});
-
+//Pegando editar Post por id
 router.get("/editPost/:id", eAdmin, checkPostOwnership, (req, res) => {
     Post.findOne({ _id: req.params.id })
         .lean()
@@ -299,7 +306,7 @@ router.get("/editPost/:id", eAdmin, checkPostOwnership, (req, res) => {
             res.redirect("/");
         });
 });
-
+//Editar post
 router.post("/editPost", eAdmin, (req, res) => {
     Post.findOne({ _id: req.body.id })
         .then((post) => {
