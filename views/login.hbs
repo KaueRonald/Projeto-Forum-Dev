@@ -1,0 +1,28 @@
+<div class="container d-flex flex-column mt-3" style="width: 23rem;">
+  {{#each errs}}
+    <div class="alert alert-danger">
+      <strong>Error! </strong> {{text}}
+    </div>
+  {{else}}
+
+  {{/each}}
+
+  <main class="text-center bs-body mt-0">
+    <div class="shadow form-signup m-auto rounded p-4">
+      <div>
+        <h1>Entrar</h1>
+        {{!-- Formulário --}}
+        <form class="mt-5" action="/login" method="post">
+          <div class="mb-3">
+            <label class="form-label float-start" for="username">Email:</label>
+            <input name="email" type="email" class="form-control" id="email" autofocus required />
+          </div>
+          <div class="mb-3">
+            <label class="form-label float-start" for="password">Senha:</label>
+            <input name="password" type="password" class="form-control" id="password" required />
+          </div>
+          <input class="btn btn-outline-dark w-100 mt-2" type="submit" value="Entrar" />
+        </form>
+      </div>
+    </div>
+  </main>

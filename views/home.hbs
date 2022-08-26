@@ -1,0 +1,47 @@
+{{#each errs}}
+  <div class="alert alert-danger">{{text}}</div>
+{{else}}
+
+{{/each}}
+
+<div style="display: flex; flex-wrap: wrap; justify-content: space-evenly; gap: 10px">
+
+  {{#if currentUser}}
+    {{#each posts}}
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">{{title}}</h4>
+          <p class="card-text">Descrição: {{content}}</p>
+          <hr>
+          <div>
+            <p>Criado por: <a href="/profile/{{authorId}}">{{authorName}}</a></p>
+          </div>
+          <small>Criada em: {{date}}</small><br><br>
+          <a href="/postContent/{{_id}}" class="card-link"><button class="btn btn-primary">Detalhamento</button></a>
+          <a href="/editPost/{{_id}}" class="card-link"><button class="btn btn-success">Editar Postagem</button></a>
+          <a href="/deletePost/{{_id}}" class="card-link"><button class="btn btn-danger">Excluir Postagem</button></a>
+        </div>
+      </div>
+    {{else}}
+      <h1>Nenhuma postagem registrada!</h1>
+    {{/each}}
+
+  {{else}}
+    {{#each posts}}
+      <div class="card">
+        <div class="card-body">
+          <h4 class="card-title">{{title}}</h4>
+          <p class="card-text">Descrição: {{content}}</p>
+          <hr>
+          <div>
+            <p>Criado por: <a href="/profile/{{authorId}}">{{authorName}}</a></p>
+          </div>
+          <small>Criada em: {{date}}</small><br><br>
+          <a href="/postContent/{{_id}}" class="card-link"><button class="btn btn-primary">Detalhamento</button></a>
+        </div>
+      </div>
+    {{else}}
+      <h1>Nenhuma postagem registrada, <br>
+        faça o login para criar uma postagem!</h1>
+    {{/each}}
+  {{/if}}

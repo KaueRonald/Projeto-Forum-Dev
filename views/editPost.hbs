@@ -1,0 +1,14 @@
+<div class="card">
+    <div class="card-body">
+        <h4>Editar postagem:</h4>
+        <form action="/editPost" method="POST">
+            <input type="hidden" name="id" value="{{post._id}}">
+            <label for="title">Titulo: </label>
+            <input type="text" name="title" class="form-control" value="{{post.title}}">
+            <label for="content">Conteúdo: </label>
+            <textarea name="content" class="form-control">{{post.content}}</textarea>
+            <button class="btn btn-success mt-4" type="submit">Salvar alterações</button>
+
+        </form>
+    </div>
+</div>

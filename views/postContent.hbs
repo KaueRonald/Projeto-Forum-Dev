@@ -1,0 +1,57 @@
+<a href="/"><button class="btn btn-dark">Voltar</button></a>
+<br><br>
+<div class="card">
+    <div class="card-body">
+        <h3>{{post.title}}</h3>
+        <div>
+            <p>Criado por: <a href="/profile/{{post.authorId}}">{{post.authorName}}</a></p>
+        </div>
+        <hr>
+        <strong>Conteúdo:</strong>
+        <p>{{post.content}}</p>
+    </div>
+    <div class="accordion-item">
+        <div>
+            <p>
+                <button class="btn btn-outline-secondary collapsed ms-3" type="button" data-bs-toggle="collapse"
+                    data-bs-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+                    Comentar ->
+                </button>
+            </p>
+            <div class="collapse" id="collapseExample">
+                <div class="card card-body">
+                    <form action="/addcomment" method="post">
+                        <input type="hidden" name="post_id" value="{{post._id}}">
+                        <div class="form-group">
+                            <label for="comment">Comentário</label>
+                            <textarea class="form-control" name="comment" id="comment" rows="3"></textarea>
+                        </div>
+                        <button type="submit" class="btn btn-primary">Comentar</button>
+                    </form>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{#each comments}}
+        <div class="card">
+            <div class="card-body">
+                <p class="card-text">{{content}}</p>
+                <div>
+                    <p>Comentário feito por: <a href="/profile/{{authorId}}">{{authorName}}</a></p>
+                </div>
+                <a href="/commentsEdit/{{_id}}" class="card-link"><button class="btn btn-success">Editar
+                        comentário</button></a>
+                <a href="/commentsExcluir/{{_id}}" class="card-link"><button class="btn btn-danger">Excluir
+                        comentário</button></a>
+            </div>
+        </div>
+    {{else}}
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">Nenhum comentário</h5>
+            </div>
+        </div>
+    {{/each}}
+</div>

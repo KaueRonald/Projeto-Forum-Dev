@@ -1,0 +1,93 @@
+<div class="row py-5 px-5 width">
+  <div class="mx-auto">
+    <!-- Profile widget -->
+    <div class="bg-white shadow rounded overflow-hidden">
+      <div class="px-4 pt-0 pb-4 cover" style="background-image: url(https://images.unsplash.com/photo-1530305408560-82d13781b33a?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1352&q=80);
+    background-size: cover;
+    background-repeat: no-repeat">
+        <div class="media profile-head d-flex" style="transform: translateY(2rem)">
+          <div class="profile mr-3" style="min-width: 130px;">
+            <img src="{{img}}" alt="..." width="130" class="rounded mb-4 img-thumbnail" />
+            {{#if comp}}
+              <div class="media-body mb-4 text-white">
+                <a href="/editProfile/{{getUserId user}}" class="btn btn-outline-light btn-block"
+                  style="--bs-btn-padding-y: .30rem; --bs-btn-padding-x: 2rem; --bs-btn-font-size: .79rem;">Edite
+                  Perfil</a>
+              </div>
+            {{else}}
+            {{/if}}
+          </div>
+          <div class="media-body ms-3 text-white">
+            <h4 class="mt-0 mb-0">{{getDisplayName user}}</h4>
+            <p>{{getUserBio user}}</p>
+          </div>
+        </div>
+      </div>
+      <div class="bg-light p-4 d-flex justify-content-end text-center">
+        <ul class="list-inline mb-0">
+          <li class="list-inline-item">
+            <h5 class="font-weight-bold mb-0 d-block">{{commentsCont}}</h5><small class="text-muted"> <i
+                class="fas fa-image mr-1"></i>Comentários</small>
+          </li>
+          <li class="list-inline-item">
+            <h5 class="font-weight-bold mb-0 d-block">{{postsCont}}</h5><small class="text-muted"> <i
+                class="fas fa-user mr-1"></i>Posts</small>
+          </li>
+        </ul>
+      </div>
+      <div class="py-4 px-4">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <h5 class="mb-0">Recent comments</h5>
+        </div>
+        <div style="display: flex; gap: 1.5rem; flex-direction: column">
+          {{#each comments}}
+            <div class="card shadow">
+              <div class="card-header">
+                {{!-- <p>Tópico: <span>{{getPostmatch posts postId}}</span></p> --}}
+              </div>
+              <div class="card-body">
+                <p class="card-text">{{content}}</p>
+              </div>
+              <div class="d-flex card-footer justify-content-between">
+                <small class="text-muted">Last updated {{updatedAt}}</small>
+              </div>
+            </div>
+          {{else}}
+            <div class="card shadow">
+              <div class="card-header">
+                <p>Nenhum comentario encontrado</p>
+              </div>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+      <div class="py-4 px-4">
+        <div class="d-flex align-items-center justify-content-between mb-3">
+          <h5 class="mb-0">Recent Posts:</h5>
+        </div>
+        <div style="display: flex; gap: 1.5rem; flex-direction: column">
+          {{#each posts}}
+            <div class="card shadow">
+              <div class="card-header">
+                <p>Title: <span>{{title}}</span></p>
+              </div>
+              <div class="card-body">
+                <p class="card-text">{{content}}</p>
+              </div>
+              <div class="d-flex card-footer justify-content-between">
+                <small class="text-muted">Last updated {{updatedAt}}</small>
+              </div>
+            </div>
+          {{else}}
+            <div class="card shadow">
+              <div class="card-header">
+                <p>Nenhum post encontrado</p>
+              </div>
+            </div>
+          {{/each}}
+        </div>
+      </div>
+    </div>
+
+  </div>
+</div>
