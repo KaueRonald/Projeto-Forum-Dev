@@ -22,8 +22,6 @@ const routesProfile = require("./routes/profile/profile");
 const app = express();
 mongoose.connect(db.mongoURI);
 
-app.set("port", process.env.PORT || 3001);
-
 // Handlebars (Template-Engine)
 app.engine(
     "hbs",
@@ -75,6 +73,8 @@ app.use(routesUsers);
 app.use(routesProfile);
 
 //porta de acesso
-app.listen(app.get("port"), () => {
+const PORT = process.env.PORT || 3000;
+
+app.listen(PORT, () => {
     console.log("Server started on port " + app.get("port"));
 });
