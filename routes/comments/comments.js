@@ -1,8 +1,7 @@
-const express = require("express");
 const router = require("express").Router();
-const Post = require("../models/Post");
-const Comment = require("../models/Comment");
-const helpers = require("../helpers/admin");
+const Post = require("../../models/Post");
+const Comment = require("../../models/Comment");
+const helpers = require("../../helpers/admin");
 
 // Criar comentario
 router.post("/addcomment", helpers.eAdmin, function (req, res) {

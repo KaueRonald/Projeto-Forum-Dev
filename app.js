@@ -13,7 +13,10 @@ const swaggerDocs = require("./swagger.json");
 require("./config/auth")(passport);
 
 const routes = require("./routes/routes");
-const routesComments = require("./routes/comments");
+const routesComments = require("./routes/comments/comments");
+const routesPosts = require("./routes/posts/posts");
+const routesUsers = require("./routes/users/users");
+const routesProfile = require("./routes/profile/profile");
 
 const app = express();
 mongoose.connect("mongodb://localhost/forum-api-new");
@@ -41,7 +44,7 @@ app.use(bodyParser.json());
 app.use(cookieParser());
 
 //Swagger
-app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs))
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocs));
 
 //Sessão
 app.use(
@@ -66,6 +69,9 @@ app.use((req, res, next) => {
 
 app.use(routes);
 app.use(routesComments);
+app.use(routesPosts);
+app.use(routesUsers);
+app.use(routesProfile);
 
 //porta de acesso
 app.listen(app.get("port"), () => {
