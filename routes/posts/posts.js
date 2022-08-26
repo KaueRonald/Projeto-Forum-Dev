@@ -1,4 +1,5 @@
 const router = require("express").Router();
+const postsController = require("../../controllers/posts/posts.controller");
 const Post = require("../../models/Post");
 const Comment = require("../../models/Comment");
 const helpers = require("../../helpers/admin");
@@ -9,23 +10,7 @@ router.get("/newPost", helpers.eAdmin, (req, res) => {
 });
 
 router.post("/addPost", helpers.eAdmin, (req, res) => {
-    const newPost = {
-        title: req.body.title,
-        content: req.body.content,
-        authorId: req.user.id,
-        authorName: req.user.displayName,
-    };
-
-    new Post(newPost)
-        .save()
-        .then(() => {
-            req.flash("success", "Postagerm criada com sucesso");
-            res.redirect("/");
-        })
-        .catch((err) => {
-            req.flash("error", "Houve um erro na criação da postagem");
-            res.redirect("/");
-        });
+    postsController.addPost(req, res);
 });
 //Deletar postagem
 router.get(
@@ -33,17 +18,7 @@ router.get(
     helpers.eAdmin,
     helpers.checkPostOwnership,
     (req, res) => {
-        Post.deleteMany({ _id: req.params.id })
-            .then(() => {
-                Comment.deleteMany({ postId: req.params.id }).then(() => {
-                    req.flash("success", "Postagem deletada com sucesso!");
-                    res.redirect("/");
-                });
-            })
-            .catch((err) => {
-                req.flash("error", "Erro interno ao tentar deletar postagem");
-                res.redirect("/");
-            });
+        postsController.deletePost(req, res);
     }
 );
 //Pegar postagem por id
@@ -86,30 +61,7 @@ router.get(
 );
 //Editar post
 router.post("/editPost", helpers.eAdmin, (req, res) => {
-    Post.findOne({ _id: req.body.id })
-        .then((post) => {
-            post.title = req.body.title;
-            post.subTitle = req.body.subTitle;
-            post.description = req.body.description;
-            post.content = req.body.content;
-
-            post.save()
-                .then(() => {
-                    req.flash("success", "Postagem editada com sucesso!");
-                    res.redirect("/");
-                })
-                .catch((err) => {
-                    req.flash("error", "Erro interno");
-                    res.redirect("/");
-                });
-        })
-        .catch((err) => {
-            req.flash(
-                "error",
-                "Ocorreu um erro ao salvar as alterações na edição da postagem"
-            );
-            res.redirect("/");
-        });
+    postsController.editPost(req, res);
 });
 
 module.exports = router;
