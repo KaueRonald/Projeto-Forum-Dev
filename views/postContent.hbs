@@ -1,14 +1,14 @@
 <a href="/"><button class="btn btn-dark">Voltar</button></a>
-<br /><br />
+
+<br><br>
+
 <div class="card">
     <div class="card-body">
         <h3>{{post.title}}</h3>
         <div>
-            <p>Criado por:
-                <a href="/profile/{{post.authorId}}">{{post.authorName}}</a>
-            </p>
+            <p>Criado por: <a href="/profile/{{post.authorId}}">{{post.authorName}}</a></p>
         </div>
-        <hr />
+        <hr>
         <strong>Conteúdo:</strong>
         <p>{{post.content}}</p>
     </div>
@@ -23,7 +23,7 @@
             <div class="collapse" id="collapseExample">
                 <div class="card card-body">
                     <form action="/addcomment" method="post">
-                        <input type="hidden" name="post_id" value="{{post._id}}" />
+                        <input type="hidden" name="post_id" value="{{post._id}}">
                         <div class="form-group">
                             <label for="comment">Comentário</label>
                             <textarea class="form-control" name="comment" id="comment" rows="3"></textarea>

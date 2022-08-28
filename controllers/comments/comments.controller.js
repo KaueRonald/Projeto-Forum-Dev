@@ -1,8 +1,7 @@
-const Comment = require("../../models/Comment");
-const Post = require("../../models/Post");
-
 const commentsDB = require("../../db/comment");
 const postsDB = require("../../db/posts");
+const Post = require("../../models/Post");
+const Comment = require("../../models/Comment");
 
 const commentsController = {
     // Add new comment
@@ -31,6 +30,38 @@ const commentsController = {
                 console.log(err);
                 res.redirect("/postContent/" + req.body.post_id);
             });
+    },
+
+    // Add new comment
+    addComment: (req, res) => {
+        Post.findById(req.body.post_id, function (err, post) {
+            if (err) {
+                res.redirect("/postContent/" + req.body.post_id);
+            } else {
+                const comment = {
+                    content: req.body.comment,
+                    postId: req.body.post_id,
+                    authorId: req.user.id,
+                    authorName: req.user.displayName,
+                };
+                Comment.create(comment, function (err, comment) {
+                    if (err) {
+                        console.log(err);
+                        req.flash("error", "Seu comentário não foi salvo");
+                        res.redirect("/postContent/" + req.body.post_id);
+                    } else {
+                        comment.save();
+                        post.comments.push(comment);
+                        post.save();
+                        req.flash(
+                            "success",
+                            "Seu comentário foi criado com sucesso!"
+                        );
+                        res.redirect("/postContent/" + req.body.post_id);
+                    }
+                });
+            }
+        });
     },
 
     // Edit comment

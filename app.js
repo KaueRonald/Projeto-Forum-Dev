@@ -11,6 +11,7 @@ const mongoose = require("mongoose");
 const swaggerUi = require("swagger-ui-express");
 const swaggerDocs = require("./swagger.json");
 const db = require("./config/db");
+
 require("./config/auth")(passport);
 
 const routes = require("./routes/routes");

@@ -1,12 +1,12 @@
 const router = require("express").Router();
 const userController = require("../../controllers/user/user.controller");
 const passport = require("passport");
-const helpers = require("../../helpers/admin");
-const path = require("path");
-const multer = require("multer");
 const commentsDB = require("../../db/comment");
-const postDB = require("../../db/posts");
 const userDB = require("../../db/user");
+const postDB = require("../../db/posts");
+const helpers = require("../../helpers/admin");
+const multer = require("multer");
+const path = require("path");
 
 // Configuração de armazenamento
 const storage = multer.diskStorage({
@@ -95,7 +95,7 @@ router.get("/profile/:id", function (req, res) {
                             } else {
                                 comp = false;
                             }
-                            console.log(comments);
+                            const img = `data:"image/png";base64,${user.img}`;
                             res.render("profile", {
                                 comments: comments,
                                 posts: posts,
@@ -103,6 +103,7 @@ router.get("/profile/:id", function (req, res) {
                                 postsCont: posts.length,
                                 user: user,
                                 comp: comp,
+                                img: img,
                             });
                         })
                         .catch((err) => {
