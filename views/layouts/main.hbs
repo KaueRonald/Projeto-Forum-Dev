@@ -5,6 +5,8 @@
     <link rel="stylesheet" href="/css/bootstrap.css" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+      integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO" crossorigin="anonymous">
     <title>Forum API</title>
     <style>
       .bg {
@@ -78,5 +80,19 @@
     integrity="sha384-ODmDIVzN+pFdexxHEHFBQH3/9/vQ9uori45z4JjnFsRydbmQbmL5t1tQ0culUzyK"
     crossorigin="anonymous"></script>
   <script src="/js/bootstrap.js"></script>
+
+  <script>
+    const modal = document.getElementById("modalAbrindo");
+
+    function abrirModal() {
+      modal.style.display = "block";
+      modal.classList.add("show");
+    }
+
+    function fecharModal() {
+      modal.style.display = "none";
+      modal.classList.remove("show");
+    }
+  </script>
 
 </html>

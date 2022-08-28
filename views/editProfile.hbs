@@ -19,4 +19,32 @@
             <button class="btn btn-success mt-4" type="submit">Salvar alterações</button>
         </form>
     </div>
+
+    <!-- Botão para acionar modal -->
+    <button type="button" class="btn btn-primary" onclick="abrirModal()">
+        Deletar usuário
+    </button>
+
+    <!-- Modal -->
+    <div class="modal fade" id="modalAbrindo" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalLabel">Tem certeza que quer excluir?</h5>
+                    <button type="button" class="close" onclick="fecharModal()">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <form action="/deleteUser/{{getUserId currentUser}}" method="post">
+                    <div class="modal-body">
+                        <p>Se você excluir sua conta, você não poderá fazer postagens ou comentários no site.</p>
+                        <input class="form-control" type="password" name="password" placeholder="Insira sua senha!">
+                    </div>
+                    <button style="float: right; margin-right: 1rem;" type="submit"
+                        class="btn btn-primary">Confirmar</button>
+                </form>
+            </div>
+        </div>
+    </div>
 </div>

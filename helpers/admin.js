@@ -25,8 +25,17 @@ const helpers = {
     getContent: (comment) => {
         return comment.content;
     },
+    getDate: (comment) => {
+        return comment.updatedAt;
+    },
+    getTitle: (post) => {
+        return post.title;
+    },
     getCommentId: (comment) => {
         return comment._id;
+    },
+    getPostId: (comment) => {
+        return comment.postId;
     },
     checkCommentOwnership: function (req, res, next) {
         if (req.isAuthenticated()) {

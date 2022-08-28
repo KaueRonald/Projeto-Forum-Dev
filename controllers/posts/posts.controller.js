@@ -1,5 +1,5 @@
-const Comment = require("../../models/Comment");
-const Post = require("../../models/Post");
+const postsDB = require("../../db/posts");
+const commentsDB = require("../../db/comment");
 
 const postsController = {
     // Add new post
@@ -11,70 +11,50 @@ const postsController = {
             authorName: req.user.displayName,
         };
 
-        new Post(newPost)
-            .save()
-            .then(() => {
-                req.flash("success", "Postagem criada com sucesso");
-                res.redirect("/");
+        postsDB
+            .insertPost(newPost)
+            .then((post) => {
+                res.redirect("/postContent/" + post._id);
             })
             .catch((err) => {
-                req.flash("error", "Houve um erro na criação da postagem");
-                res.redirect("/");
+                console.log("error: " + err);
+                res.redirect("back");
             });
     },
 
     // Edit post
     editPost: (req, res) => {
-        Post.findOne({ _id: req.body.id })
-            .then((post) => {
-                post.title = req.body.title;
-                post.content = req.body.content;
-
-                post.save()
-                    .then(() => {
-                        req.flash("success", "Postagem editada com sucesso");
-                        res.redirect("/");
-                    })
-                    .catch((err) => {
-                        req.flash(
-                            "error",
-                            "Houve um erro na edição da postagem"
-                        );
-                        res.redirect("/");
-                    });
+        postsDB
+            .updatePost(req.body.id, req.body.content, req.body.title)
+            .then((result) => {
+                req.flash("success", "Post editado com sucesso!");
+                res.redirect("/postContent/" + req.params._id);
             })
             .catch((err) => {
-                req.flash("error", "Houve um erro na edição da postagem");
-                res.redirect("/");
+                console.log("error: " + err);
+                req.flash("error", "Erro ao editar postagem");
+                res.redirect("back");
             });
     },
 
     // Delete post
     deletePost: (req, res) => {
-        Post.deleteOne({ _id: req.params.id })
-            .then(() => {
-                Comment.deleteMany({ postId: req.params.id })
-                    .then(() => {
-                        req.flash("success", "Postagem deletada com sucesso");
+        postsDB.deletePost(req.params.id).then((result) => {
+            if (result) {
+                commentsDB.deleteCommentsPost(req.params.id).then((result) => {
+                    if (result) {
+                        req.flash("success", "Postagem excluída com sucesso!");
                         res.redirect("/");
-                    })
-                    .catch((err) => {
-                        req.flash("error", "Houve um erro ao deletar postagem");
-                        res.redirect("/");
-                    }),
-                    (err) => {
-                        req.flash("error", "Houve um erro ao deletar postagem");
-                        res.redirect("/");
-                    };
-            })
-            .catch((err) => {
-                req.flash("error", "Houve um erro ao deletar postagem");
-                res.redirect("/");
-            }),
-            (err) => {
-                req.flash("error", "Houve um erro ao deletar postagem");
-                res.redirect("/");
-            };
+                    } else {
+                        req.flash("error", "Erro ao excluir comentários");
+                        res.redirect("back");
+                    }
+                });
+            } else {
+                req.flash("error", "A postagem não foi excluída");
+                res.redirect("back");
+            }
+        });
     },
 };
 

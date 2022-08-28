@@ -18,7 +18,9 @@ router.get(
             if (err) {
                 res.redirect("back");
             } else {
-                res.render("commentsEdit", { comments: comments });
+                res.render("commentsEdit", {
+                    comments: comments,
+                });
             }
         });
     }

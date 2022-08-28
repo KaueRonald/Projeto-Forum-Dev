@@ -17,7 +17,6 @@ const routes = require("./routes/routes");
 const routesComments = require("./routes/comments/comments");
 const routesPosts = require("./routes/posts/posts");
 const routesUsers = require("./routes/users/users");
-const routesProfile = require("./routes/profile/profile");
 
 const app = express();
 mongoose.connect(db.mongoURI);
@@ -70,11 +69,10 @@ app.use(routes);
 app.use(routesComments);
 app.use(routesPosts);
 app.use(routesUsers);
-app.use(routesProfile);
 
 //porta de acesso
 const PORT = process.env.PORT || 3000;
 
 app.listen(PORT, () => {
-    console.log("Server started on port " + app.get("port"));
+    console.log("Server started on port " + PORT);
 });

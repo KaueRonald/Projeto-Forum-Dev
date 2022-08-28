@@ -37,7 +37,7 @@
       </div>
       <div class="py-4 px-4">
         <div class="d-flex align-items-center justify-content-between mb-3">
-          <h5 class="mb-0">Recent comments</h5>
+          <h5 class="mb-0">Recent comments:</h5>
         </div>
         <div style="display: flex; gap: 1.5rem; flex-direction: column">
           {{#each comments}}
@@ -46,10 +46,10 @@
                 {{!-- <p>Tópico: <span>{{getPostmatch posts postId}}</span></p> --}}
               </div>
               <div class="card-body">
-                <p class="card-text">{{content}}</p>
+                <p class="card-text">{{getContent this}}</p>
               </div>
               <div class="d-flex card-footer justify-content-between">
-                <small class="text-muted">Last updated {{updatedAt}}</small>
+                <small class="text-muted">Last updated {{getDate this}}</small>
               </div>
             </div>
           {{else}}
@@ -69,13 +69,13 @@
           {{#each posts}}
             <div class="card shadow">
               <div class="card-header">
-                <p>Title: <span>{{title}}</span></p>
+                <p>Title: <span>{{getTitle this}}</span></p>
               </div>
               <div class="card-body">
-                <p class="card-text">{{content}}</p>
+                <p class="card-text">{{getContent this}}</p>
               </div>
               <div class="d-flex card-footer justify-content-between">
-                <small class="text-muted">Last updated {{updatedAt}}</small>
+                <small class="text-muted">Last updated {{getDate this}}</small>
               </div>
             </div>
           {{else}}
