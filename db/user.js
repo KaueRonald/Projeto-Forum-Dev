@@ -97,6 +97,25 @@ const userDB = {
                 return err;
             });
     },
+
+    getUserEmail: (email) => {
+        return new Promise((resolve, reject) => {
+            User.findOne({ email: email }, function (err, user) {
+                if (err) {
+                    reject(err);
+                } else {
+                    resolve(user);
+                }
+            }).lean();
+        })
+            .then((user) => {
+                return user;
+            })
+            .catch((err) => {
+                console.log("error: " + err);
+                return err;
+            });
+    },
 };
 
 module.exports = userDB;

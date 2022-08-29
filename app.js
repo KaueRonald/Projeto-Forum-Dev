@@ -18,6 +18,7 @@ const routes = require("./routes/routes");
 const routesComments = require("./routes/comments/comments");
 const routesPosts = require("./routes/posts/posts");
 const routesUsers = require("./routes/users/users");
+const routesAPI = require("./routes/API/api.routes");
 
 const app = express();
 mongoose.connect(db.mongoURI);
@@ -70,6 +71,7 @@ app.use(routes);
 app.use(routesComments);
 app.use(routesPosts);
 app.use(routesUsers);
+app.use(routesAPI);
 
 //porta de acesso
 const PORT = process.env.PORT || 3000;

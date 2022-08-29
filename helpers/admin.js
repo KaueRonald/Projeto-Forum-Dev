@@ -1,5 +1,6 @@
 const Post = require("../models/Post");
 const Comment = require("../models/Comment");
+const postsDB = require("../db/posts");
 
 const helpers = {
     eAdmin: function (req, res, next) {

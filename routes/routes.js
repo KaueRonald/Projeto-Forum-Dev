@@ -1,6 +1,8 @@
 const router = require("express").Router();
 const Post = require("../models/Post");
 
+const postsDB = require("../db/posts");
+
 //homepage
 router.get("/", function (req, res) {
     Post.find()

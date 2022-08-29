@@ -11,7 +11,7 @@ test("Espera-se que o comentário seja criado e cadastrado no mongo", async () =
         content: "Teste de comentário",
         postId: "5e9f8f8f8f8f8f8f8f8f8f8",
         authorId: "5e9f8f8f8f9f8f8f8f8f8f8",
-        authorName: "Kauê",
+        authorName: "Tester",
     };
     comments.create(comment);
     let result = await comments.find();
@@ -20,10 +20,10 @@ test("Espera-se que o comentário seja criado e cadastrado no mongo", async () =
 
 test("Espera-se que a postagem seja criada e cadastrada no mongo", async () => {
     const post = {
-        title: "politica",
-        content: "eu não gosto de politica",
+        title: "Teste de post",
+        content: "eu não gosto de teste",
         authorId: "12321321312",
-        authorName: "Kaue",
+        authorName: "Tester",
     };
     posts.create(post);
     let resultado = await posts.find();
@@ -38,8 +38,8 @@ test("Espera-se que a postagem seja criada e cadastrada no mongo", async () => {
 
 test("É esperado que o usuário seja criado e cadastrado no mongo", async () => {
     const user = {
-        displayName: "Kaue",
-        email: "kaue@ronalds.com",
+        displayName: "Tester",
+        email: "kaue@test.com",
         password: "12345678",
     };
     users.create(user);
