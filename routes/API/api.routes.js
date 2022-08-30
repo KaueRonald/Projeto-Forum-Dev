@@ -41,10 +41,13 @@ router.get("/api/posts", function (req, res) {
     postsDB
         .getAllPosts()
         .then((posts) => {
-            res.status(200).json(posts);
+            return res.json({
+                post: posts,
+                message: "Posts retornados com sucesso",
+            });
         })
         .catch((err) => {
-            res.status(500).json(err);
+            return res.json({ error: err });
         });
 });
 //retorna o post pelo id
@@ -67,6 +70,7 @@ router.post("/api/createPosts", (req, res) => {
         authorName,
         authorId,
     };
+    return res.json({ item });
     postsDB
         .insertPost(item)
         .then((post) => {
@@ -176,7 +180,10 @@ router.post("/api/createUser", (req, res) => {
             usersDB
                 .createUser(newUser)
                 .then((user) => {
-                    res.status(200).json(user);
+                    res.status(200).json({
+                        message: "Usuário criado com sucesso!",
+                        user: user,
+                    });
                 })
                 .catch((err) => {
                     res.status(500).json(err);

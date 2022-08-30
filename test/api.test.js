@@ -7,30 +7,8 @@ const postsDB = require("../db/posts");
 const usersDB = require("../db/user");
 
 const mongoose = require("mongoose");
-const userController = require("../controllers/user/user.controller");
+
 mongoose.connect("mongodb://localhost/forum-api-new");
-
-// Execulta a cada teste
-// beforeEach(() => {
-//     initializeCityDatabase();
-// });
-
-// afterEach(() => {
-//     users.deleteMany({ email: "kaue2@test.com" });
-// });
-
-// afterEach(() => {
-//     clearCityDatabase();
-// });
-
-// // Execulta depois de todos os testes
-// beforeAll(() => {
-//     return initializeCityDatabase();
-// });
-
-// afterAll(() => {
-//     return clearCityDatabase();
-// });
 
 test("Espera-se que o comentário seja criado e cadastrado no mongo", async () => {
     const comment = {

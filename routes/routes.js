@@ -8,10 +8,11 @@ router.get("/", function (req, res) {
     Post.find()
         .lean()
         .then((posts) => {
+            req.status(200);
             res.render("home", { posts: posts });
         })
         .catch((err) => {
-            req.flash("error", "Houve um erro interno!");
+            req.status(400).flash("error", "Houve um erro interno!");
             res.redirect("/404");
         });
 });
