@@ -1,8 +1,8 @@
 # Fórum-Dev
 
-### site de interação onde os usuários poderão criar um perfil personalizável com foto e poderão fazer postagens por tópicos na página inicial da aplicação
+### Página web com domínio ficticio, desenvolvido para fins de aprendizagem, a aplicação trata-se de um fórum de tecnologia em que o objetivo é permitir a integração de usuários com mesmo interesse em determinado assunto.
 
-* O site se encontra upado na plataforma heroku: [Fórum-Dev](https://forum-dev-pw1.herokuapp.com/)
+* A aplicação encontra-se hospedada na heroku: [Fórum-Dev](https://forum-dev-pw1.herokuapp.com/)
 * Casos de testes da disciplina de Testes de Software: [Casos de Teste](https://docs.google.com/document/d/1v3J1GOiGhuXBCujLbYQpONtldCqy2g3uqj0iG1Adc_8/edit)
 * Documentação com casos de uso da disciplina de Análise e projeto de Sistemas: [Documentação-APS](https://docs.google.com/document/d/1z4uF55DbK5uNyZGw11uGEP5m5u_fn0piArpBAMMysNw/edit)
 
