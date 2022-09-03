@@ -14,12 +14,12 @@
         <form class="mt-4" action="/signup" method="post">
           <div class="mb-3">
             <label class="form-label float-start" for="">Nome:</label>
-            <input type="text" name="displayName" class="form-control" required>
+            <input type="text" name="displayName" id="name" class="form-control" required>
           </div>
           <div class="mb-3">
 
             <label class="form-label float-start" for="email">Email:</label>
-            <input name="email" type="text" class="form-control" autofocus required />
+            <input name="email" type="text" id="email" class="form-control" autofocus required />
           </div>
 
           <div class="mb-3">
@@ -28,9 +28,9 @@
             <label class="form-label float-start mt-3" for="password2">Confirme a
               sua senha:
             </label>
-            <input name="password2" type="password" class="form-control" required />
+            <input id="password_confirmation" name="password2" type="password" class="form-control" required />
           </div>
-          <input class="btn btn-outline-dark w-100 mt-2" type="submit" value="Cadastrar" />
+          <input class="btn btn-outline-dark w-100 mt-2" type="submit" id="cadastrar" value="Cadastrar" />
         </form>
       </div>
     </div>
